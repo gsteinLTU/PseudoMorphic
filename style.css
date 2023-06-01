@@ -1,0 +1,140 @@
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.pseudo-morphic {
+  font-family: Arial, Helvetica, sans-serif;
+  color: black;
+}
+
+dialog.pseudo-morphic {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: auto;
+  max-width: 80%;
+  transform: translate(-50%, -50%);
+  border: double 0px transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0 16px 16px 16px;
+  background-color: rgb(220, 220, 220);
+  box-shadow: -4px -4px 8px 0px rgba(0, 0, 0, 0.3) inset;
+  text-align: center;
+  user-select: none;
+  font-size: 10pt;
+  flex-direction: column;
+  gap: 8px;
+}
+
+dialog.pseudo-morphic header {
+  border: double 8px transparent;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  background-origin: border-box;
+  height: 12px;
+  width: calc(100% + 16px);
+  position: relative;
+  left: -16px;
+  text-align: center;
+  color: white;
+  line-height: 12px;
+  background-image: linear-gradient(rgba(130, 195, 240, 1), rgba(75, 107, 150, 1));
+  font-weight: 600;
+  text-shadow: 1px 1px #555;
+  font-size: 12pt;
+}
+
+.pseudo-morphic button,
+button.pseudo-morphic {
+  border: 3px solid transparent;
+  background: linear-gradient(rgb(220, 220, 220), rgb(220, 220, 220)) padding-box,
+    linear-gradient(to bottom, rgb(190, 190, 190), white) border-box;
+  box-shadow: -3px -3px 2px 0px rgba(0, 0, 0, 0.5) inset,
+    4px 4px 2px 2px rgba(255, 255, 255, 0.5) inset;
+  min-height: 24px;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-weight: 600;
+  font-size: 9pt;
+  text-shadow: 1px 1px #EEE inset;
+}
+
+
+.pseudo-morphic button.noborder,
+button.pseudo-morphic.noborder {
+  border: 1px rgb(190,190,190) solid;
+  background: linear-gradient(rgb(220, 220, 220), rgb(220, 220, 220)) padding-box;
+  box-shadow: -3px -3px 2px 0px rgba(0, 0, 0, 0.5) inset,
+    4px 4px 2px 2px rgba(255, 255, 255, 0.5) inset;
+}
+
+.pseudo-morphic button:focus,
+button.pseudo-morphic:focus {
+  outline: 0;
+}
+
+.pseudo-morphic button:enabled:hover,
+button.pseudo-morphic:enabled:hover {
+  background: linear-gradient(rgb(191, 217, 245), rgb(191, 217, 245)) padding-box,
+    linear-gradient(to bottom, rgb(190, 190, 190), white) border-box;
+}
+
+.pseudo-morphic button:enabled:active,
+button.pseudo-morphic:enabled:active {
+  background: linear-gradient(rgb(130, 178, 235), rgb(130, 178, 235)) padding-box,
+    linear-gradient(to bottom, rgb(190, 190, 190), white) border-box;
+  box-shadow: 3px 3px 2px 0px rgba(0, 0, 0, 0.5) inset,
+    -4px -4px 2px 2px rgba(255, 255, 255, 0.5) inset;
+}
+
+.pseudo-morphic .inset {
+  background: rgb(234,234,234);
+  box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, 0.25) inset, -1px -1px 2px 0px rgba(0,0,0,0.25);
+  border-top: 1px solid rgb(112,112,112);
+  border-left: 1px solid rgb(112,112,112);
+  border-bottom: 1px solid rgb(224,224,224);
+  border-right: 1px solid rgb(224,224,224);
+}
+
+.pseudo-morphic input:focus {
+  outline: none;
+}
+
+.pseudo-morphic .expand {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  text-shadow: -1px -1px white;
+  color: black;
+  float: right;
+}
+.pseudo-morphic .expand:hover {
+  color: white;
+  text-shadow: -1px -1px darkblue;
+}
+
+
+.pseudo-morphic .expand div {
+  position: relative;
+  float: right;
+}
+
+.pseudo-morphic .expand div:nth-child(3) {
+  font-size: 16px;
+  left: 8px;
+}
+
+.pseudo-morphic .expand div:nth-child(2) {
+  font-size: 8px;
+  top: 9px;
+  left: 1px;
+}
+
+.pseudo-morphic .expand div:nth-child(1) {
+  font-size: 3px;
+  top: 16px;
+}

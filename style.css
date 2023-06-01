@@ -14,7 +14,7 @@ dialog.pseudo-morphic {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: auto;
+  width: max-content;
   max-width: 80%;
   transform: translate(-50%, -50%);
   border: double 0px transparent;

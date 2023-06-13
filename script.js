@@ -161,3 +161,52 @@ function showDialog(dialog) {
   const dialogWidth = dialog.getBoundingClientRect().width;
   dialog.style.width = dialogWidth + 'px';
 };
+
+
+// Create a dialog element easily, add content after
+function createDialog(title='', expandable = true, buttons = ['Close']) {
+  let element = document.createElement('dialog');
+  element.className = 'pseudo-morphic';
+
+  let header = document.createElement('header');
+  header.innerText = title;
+  element.appendChild(header);
+
+  let content = document.createElement('content');
+  element.appendChild(content);
+
+  // Setup buttons
+  let buttonbar = document.createElement('div');
+  buttonbar.style['margin-top'] = 'auto';
+
+  buttons.forEach(b => {
+    let button = document.createElement('button');
+    button.innerText = b;
+
+    // We can set up the close button to be recognized later
+    if(b == 'Close') {
+      button.className = 'close';  
+    }
+    
+    buttonbar.appendChild(button);
+  });
+  
+  element.appendChild(buttonbar);
+
+  // Create expand widget
+  if(expandable) {
+    let expando = document.createElement('div');
+    expando.className = 'expand';
+    
+    for(let i = 0; i < 3; i++){
+      let diag = document.createElement('div');
+      diag.innerText = '⟋';
+      expando.appendChild(diag);
+    }
+    
+    element.appendChild(expando);
+  }
+
+  document.body.appendChild(element);
+  return element;
+};

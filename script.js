@@ -159,11 +159,13 @@ function setupDialog(dialog, expandable = true) {
 
 // Display dialog and peform other setup
 function showDialog(dialog) {
-  dialog.show();
-  dialog.style.display = 'flex';
+  if (!dialog.style['display'] || dialog.style['display'] == 'none') {
+    dialog.show();
+    dialog.style.display = 'flex';
 
-  const dialogWidth = dialog.getBoundingClientRect().width;
-  dialog.style.width = dialogWidth + 'px';
+    const dialogWidth = dialog.getBoundingClientRect().width;
+    dialog.style.width = dialogWidth + 'px';
+  }
 };
 
 // Create a dialog element easily, add content after

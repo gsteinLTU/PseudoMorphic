@@ -4,7 +4,7 @@ var draggingEnabled = true;
 // Add dragging capability to dialog
 function dragElement(elmnt, useHeader = false) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  
+
   if (useHeader && elmnt.querySelector(":scope header")) {
     // Drag by header
     elmnt.querySelector(":scope header").onmousedown = dragMouseDown;
@@ -32,32 +32,32 @@ function dragElement(elmnt, useHeader = false) {
 
   function dragMouseDown(e) {
     e = e || window.event;
-    
+
     // Get initial mouse position
     pos3 = e.clientX;
     pos4 = e.clientY;
-    
+
     document.documentElement.addEventListener("mouseup", closeDragElement);
-    
+
     // Update position on mousemove
     document.documentElement.addEventListener("mousemove", elementDrag);
   }
 
   function elementDrag(e) {
-    if(!draggingEnabled) { return; }
-    
+    if (!draggingEnabled) { return; }
+
     e = e || window.event;
     e.preventDefault();
-    
+
     // calculate the new cursor position
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    
+
     // set new position
-    elmnt.style.top = Math.min(window.screen.height - elmnt.getBoundingClientRect().height / 2, Math.max(dialog.getBoundingClientRect().height / 2, elmnt.offsetTop - pos2)) + "px";
-    elmnt.style.left = Math.min(window.screen.width - elmnt.getBoundingClientRect().width / 2, Math.max(dialog.getBoundingClientRect().width / 2, elmnt.offsetLeft - pos1)) + "px";
+    elmnt.style.top = Math.min(window.screen.height - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop - pos2)) + "px";
+    elmnt.style.left = Math.min(window.screen.width - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft - pos1)) + "px";
   }
 
   // Stop dragging
@@ -69,8 +69,8 @@ function dragElement(elmnt, useHeader = false) {
 
   // Keep in window
   addEventListener("resize", function(e) {
-    elmnt.style.top = Math.min(window.screen.height - dialog.getBoundingClientRect().height / 2, Math.max(dialog.getBoundingClientRect().height / 2, elmnt.offsetTop)) + "px";
-    elmnt.style.left = Math.min(window.screen.width - dialog.getBoundingClientRect().width / 2, Math.max(dialog.getBoundingClientRect().width / 2, elmnt.offsetLeft)) + "px";
+    elmnt.style.top = Math.min(window.screen.height - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop)) + "px";
+    elmnt.style.left = Math.min(window.screen.width - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft)) + "px";
   });
 }
 
@@ -79,7 +79,7 @@ function expandElement(elmnt, minWidth = 400, minHeight = 150) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   var startWidth, startHeight, startTop, startLeft;
   elmnt.querySelector(":scope .expand").addEventListener("mousedown", expandMouseDown);
-  
+
   function expandMouseDown(e) {
     e = e || window.event;
     // get the mouse cursor position at startup:
@@ -95,11 +95,11 @@ function expandElement(elmnt, minWidth = 400, minHeight = 150) {
     startTop = elmnt.getBoundingClientRect().top;
 
     // Always allow current size
-    if(startWidth < minWidth) {
+    if (startWidth < minWidth) {
       minWidth = startWidth;
     }
-    
-    if(startHeight < minHeight) {
+
+    if (startHeight < minHeight) {
       minHeight = startHeight;
     }
   }
@@ -129,23 +129,27 @@ function expandElement(elmnt, minWidth = 400, minHeight = 150) {
 function moveToFront(elem, selector) {
   let maxIndex = Math.max(...Array.prototype.map.call(document.querySelectorAll(selector), e => e.style['z-index'] || 0));
 
-  if(maxIndex < 1) {
+  if (maxIndex < 1) {
     maxIndex = 1;
   }
-  
-  if(elem.style['z-index'] != maxIndex) {
+
+  if (elem.style['z-index'] != maxIndex) {
     elem.style['z-index'] = maxIndex + 1;
   }
 }
 
 // Setup dialog with dragging, expanding, close button, focus on click
-function setupDialog(dialog) {
+function setupDialog(dialog, expandable = true) {
   dragElement(dialog);
-  expandElement(dialog);
+
+  if (expandable) {
+    expandElement(dialog);
+  }
+
   dialog.addEventListener("mousedown", moveToFront.bind(null, dialog, "dialog"));
-  
+
   const closeButton = dialog.querySelector(':scope button.close');
-  if(closeButton) {
+  if (closeButton) {
     closeButton.onclick = () => {
       dialog.close();
       dialog.style.display = '';
@@ -162,9 +166,8 @@ function showDialog(dialog) {
   dialog.style.width = dialogWidth + 'px';
 };
 
-
 // Create a dialog element easily, add content after
-function createDialog(title='', expandable = true, buttons = ['Close']) {
+function createDialog(title = '', expandable = true, buttons = ['Close']) {
   let element = document.createElement('dialog');
   element.className = 'pseudo-morphic';
 
@@ -184,29 +187,29 @@ function createDialog(title='', expandable = true, buttons = ['Close']) {
     button.innerText = b;
 
     // We can set up the close button to be recognized later
-    if(b == 'Close') {
-      button.className = 'close';  
+    if (b == 'Close') {
+      button.className = 'close';
     }
-    
+
     buttonbar.appendChild(button);
   });
-  
+
   element.appendChild(buttonbar);
 
   // Create expand widget
-  if(expandable) {
+  if (expandable) {
     let expando = document.createElement('div');
     expando.className = 'expand';
-    
-    for(let i = 0; i < 3; i++){
+
+    for (let i = 0; i < 3; i++) {
       let diag = document.createElement('div');
       diag.innerText = '⟋';
       expando.appendChild(diag);
     }
-    
+
     element.appendChild(expando);
   }
 
   document.body.appendChild(element);
   return element;
-};
+}

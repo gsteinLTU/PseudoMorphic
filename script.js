@@ -75,7 +75,20 @@ function dragElement(elmnt, useHeader = false) {
 }
 
 // Setup expand widget for dialog
-function expandElement(elmnt, minWidth = 400, minHeight = 150) {
+function expandElement(elmnt, minWidth = null, minHeight = null) {
+  // Auto-set min size
+  if(minWidth == null) {
+    elmnt.show(); 
+    minWidth = elmnt.clientWidth; 
+    elmnt.close();
+  }
+  
+  if(minHeight == null) {
+    elmnt.show(); 
+    minHeight = elmnt.clientHeight; 
+    elmnt.close();
+  }
+  
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   var startWidth, startHeight, startTop, startLeft;
   elmnt.querySelector(":scope .expand").addEventListener("mousedown", expandMouseDown);

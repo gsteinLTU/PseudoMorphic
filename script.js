@@ -175,9 +175,6 @@ function showDialog(dialog) {
   if (!dialog.style['display'] || dialog.style['display'] == 'none') {
     dialog.show();
     dialog.style.display = 'flex';
-
-    const dialogWidth = dialog.getBoundingClientRect().width;
-    dialog.style.width = dialogWidth + 'px';
   }
 };
 

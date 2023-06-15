@@ -24,8 +24,8 @@ function dragElement(elmnt, useHeader = false) {
   }
 
   // Prevent dragging on things that shouldn't cause it
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div)"), e => e.addEventListener("mousedown", disableDrag));
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div)"), e => e.addEventListener("mouseup", enableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content)"), e => e.addEventListener("mousedown", disableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content)"), e => e.addEventListener("mouseup", enableDrag));
 
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mousedown", disableDrag));
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mouseup", enableDrag));

@@ -138,3 +138,9 @@ button.pseudo-morphic:enabled:active {
   font-size: 3px;
   top: 16px;
 }
+
+dialog.pseudo-morphic content {
+  flex-grow: 1;
+  overflow: hidden;
+  width: auto;
+}

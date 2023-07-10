@@ -173,7 +173,9 @@ function setupDialog(dialog, expandable = true) {
 // Display dialog and peform other setup
 function showDialog(dialog) {
   if (!dialog.style['display'] || dialog.style['display'] == 'none') {
+    dialog.inert = true;
     dialog.show();
+    dialog.inert = false;
     dialog.style.display = 'flex';
   }
 };

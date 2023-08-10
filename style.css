@@ -143,4 +143,5 @@ dialog.pseudo-morphic content {
   flex-grow: 1;
   overflow: hidden;
   width: auto;
+  padding: 8px;
 }

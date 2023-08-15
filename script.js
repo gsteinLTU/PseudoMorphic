@@ -227,3 +227,9 @@ function createDialog(title = '', expandable = true, buttons = ['Close']) {
   document.body.appendChild(element);
   return element;
 }
+
+
+function setDialogTitle(dialog, newTitle) {
+  let header = dialog.querySelector("header");
+  header.innerText = newTitle;
+}

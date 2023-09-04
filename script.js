@@ -24,15 +24,19 @@ function dragElement(elmnt, useHeader = false) {
   }
 
   // Prevent dragging on things that shouldn't cause it
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content)"), e => e.addEventListener("mousedown", disableDrag));
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content)"), e => e.addEventListener("mouseup", enableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("mousedown", disableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("mouseup", enableDrag));
 
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mousedown", disableDrag));
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mouseup", enableDrag));
 
+  let lastActive = null;
+  
   function dragMouseDown(e) {
+    if (!draggingEnabled) { return; }
     e = e || window.event;
-
+    lastActive = document.activeElement;
+    
     // Get initial mouse position
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -47,8 +51,7 @@ function dragElement(elmnt, useHeader = false) {
     if (!draggingEnabled) { return; }
 
     e = e || window.event;
-    e.preventDefault();
-
+    
     // calculate the new cursor position
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
@@ -65,6 +68,12 @@ function dragElement(elmnt, useHeader = false) {
     document.documentElement.removeEventListener("mouseup", closeDragElement);
     document.documentElement.removeEventListener("mousemove", elementDrag);
     draggingEnabled = true;
+
+    // Refocus previous element
+    if(lastActive){
+      lastActive.focus();
+      lastActive = null;
+    }
   }
 
   // Keep in window
@@ -184,6 +193,9 @@ function showDialog(dialog) {
 function createDialog(title = '', expandable = true, buttons = ['Close']) {
   let element = document.createElement('dialog');
   element.className = 'pseudo-morphic';
+  element.onfocus = (ev) => {
+    console.dir(ev);
+  };
 
   let header = document.createElement('header');
   header.innerText = title;
@@ -199,6 +211,7 @@ function createDialog(title = '', expandable = true, buttons = ['Close']) {
   buttons.forEach(b => {
     let button = document.createElement('button');
     button.innerText = b;
+    button.tabIndex = '-1';
 
     // We can set up the close button to be recognized later
     if (b == 'Close') {
@@ -227,7 +240,6 @@ function createDialog(title = '', expandable = true, buttons = ['Close']) {
   document.body.appendChild(element);
   return element;
 }
-
 
 function setDialogTitle(dialog, newTitle) {
   let header = dialog.querySelector("header");

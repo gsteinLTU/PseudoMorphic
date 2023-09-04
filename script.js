@@ -104,6 +104,8 @@ function expandElement(elmnt, minWidth = null, minHeight = null) {
 
   function expandMouseDown(e) {
     e = e || window.event;
+    lastActive = document.activeElement;
+    
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -144,6 +146,12 @@ function expandElement(elmnt, minWidth = null, minHeight = null) {
     document.documentElement.removeEventListener("mouseup", closeExpandElement);
     document.documentElement.removeEventListener("mousemove", expandElementDrag);
     draggingEnabled = true;
+    
+    // Refocus previous element
+    if(lastActive){
+      lastActive.focus();
+      lastActive = null;
+    }
   }
 }
 

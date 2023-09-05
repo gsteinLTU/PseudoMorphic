@@ -33,7 +33,7 @@ function dragElement(elmnt, useHeader = false) {
   let lastActive = null;
   
   function dragMouseDown(e) {
-    if (!draggingEnabled) { return; }
+    if (!draggingEnabled || e.button != 0) { return; }
     e = e || window.event;
     lastActive = document.activeElement;
     

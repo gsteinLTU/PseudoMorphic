@@ -201,9 +201,6 @@ function showDialog(dialog) {
 function createDialog(title = '', expandable = true, buttons = ['Close']) {
   let element = document.createElement('dialog');
   element.className = 'pseudo-morphic';
-  element.onfocus = (ev) => {
-    console.dir(ev);
-  };
 
   let header = document.createElement('header');
   header.innerText = title;

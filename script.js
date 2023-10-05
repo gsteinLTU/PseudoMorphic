@@ -246,6 +246,19 @@ function createDialog(title = '', expandable = true, buttons = ['Close']) {
   return element;
 }
 
+function pmAlert(title, text) {
+  let dialog = createDialog(title, false);
+  dialog.querySelector('content').innerHTML += text;
+  let oldOnClick = dialog.querySelector('button').onclick;
+  dialog.querySelector('button').onclick = (ev) => {
+    oldOnClick(ev);
+    dialog.remove();
+  };
+  setupDialog(dialog, false);
+  showDialog(dialog);
+  moveToFront(dialog, "dialog");
+}
+
 function setDialogTitle(dialog, newTitle) {
   let header = dialog.querySelector("header");
   header.innerText = newTitle;

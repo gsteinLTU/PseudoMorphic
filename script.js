@@ -181,8 +181,7 @@ function setupDialog(dialog, expandable = true) {
   const closeButton = dialog.querySelector(':scope button.close');
   if (closeButton) {
     closeButton.onclick = () => {
-      dialog.close();
-      dialog.style.display = '';
+      hideDialog(dialog);
     };
   }
 };
@@ -202,7 +201,15 @@ function showDialog(dialog) {
       dialog.style.top = (window.innerHeight / 2) + 'px';
       dialog.style.left = (window.innerWidth / 2) + 'px';
     }
+    
+    moveToFront(dialog, "dialog");
   }
+};
+
+// Hide a dialog
+function hideDialog(dialog) {
+  dialog.close();
+  dialog.style.display = '';
 };
 
 // Create a dialog element easily, add content after

@@ -194,6 +194,14 @@ function showDialog(dialog) {
     dialog.show();
     dialog.inert = false;
     dialog.style.display = 'flex';
+
+    // Check if off screen
+    let r = dialog.getBoundingClientRect();
+    if (r.x < 0 || r.y < 0) {
+      // Recenter
+      dialog.style.top = (window.innerHeight / 2) + 'px';
+      dialog.style.left = (window.innerWidth / 2) + 'px';
+    }
   }
 };
 

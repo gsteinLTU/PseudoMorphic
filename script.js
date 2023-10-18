@@ -7,10 +7,10 @@ function dragElement(elmnt, useHeader = false) {
 
   if (useHeader && elmnt.querySelector(":scope header")) {
     // Drag by header
-    elmnt.querySelector(":scope header").onmousedown = dragMouseDown;
+    elmnt.querySelector(":scope header").onpointerdown = dragMouseDown;
   } else {
     // Drag by anywhere on element
-    elmnt.onmousedown = dragMouseDown;
+    elmnt.onpointerdown = dragMouseDown;
   }
 
   // Prevent dragging
@@ -24,34 +24,34 @@ function dragElement(elmnt, useHeader = false) {
   }
 
   // Prevent dragging on things that shouldn't cause it
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("mousedown", disableDrag));
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("mouseup", enableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("pointerdown", disableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("pointerup", enableDrag));
 
-  Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mousedown", disableDrag));
-  Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("mouseup", enableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerdown", disableDrag));
+  Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerup", enableDrag));
 
   let lastActive = null;
-  
+
   function dragMouseDown(e) {
     if (!draggingEnabled || e.button != 0) { return; }
     e = e || window.event;
     lastActive = document.activeElement;
-    
+
     // Get initial mouse position
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-    document.documentElement.addEventListener("mouseup", closeDragElement);
+    document.documentElement.addEventListener("pointerup", closeDragElement);
 
     // Update position on mousemove
-    document.documentElement.addEventListener("mousemove", elementDrag);
+    document.documentElement.addEventListener("pointermove", elementDrag);
   }
 
   function elementDrag(e) {
     if (!draggingEnabled) { return; }
 
     e = e || window.event;
-    
+
     // calculate the new cursor position
     pos1 = pos3 - e.clientX;
     pos2 = pos4 - e.clientY;
@@ -65,12 +65,12 @@ function dragElement(elmnt, useHeader = false) {
 
   // Stop dragging
   function closeDragElement() {
-    document.documentElement.removeEventListener("mouseup", closeDragElement);
-    document.documentElement.removeEventListener("mousemove", elementDrag);
+    document.documentElement.removeEventListener("pointerup", closeDragElement);
+    document.documentElement.removeEventListener("pointermove", elementDrag);
     draggingEnabled = true;
 
     // Refocus previous element
-    if(lastActive){
+    if (lastActive) {
       lastActive.focus();
       lastActive = null;
     }
@@ -86,32 +86,32 @@ function dragElement(elmnt, useHeader = false) {
 // Setup expand widget for dialog
 function expandElement(elmnt, minWidth = null, minHeight = null) {
   // Auto-set min size
-  if(minWidth == null) {
-    elmnt.show(); 
-    minWidth = elmnt.clientWidth; 
+  if (minWidth == null) {
+    elmnt.show();
+    minWidth = elmnt.clientWidth;
     elmnt.close();
   }
-  
-  if(minHeight == null) {
-    elmnt.show(); 
-    minHeight = elmnt.clientHeight; 
+
+  if (minHeight == null) {
+    elmnt.show();
+    minHeight = elmnt.clientHeight;
     elmnt.close();
   }
-  
+
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   var startWidth, startHeight, startTop, startLeft;
-  elmnt.querySelector(":scope .expand").addEventListener("mousedown", expandMouseDown);
+  elmnt.querySelector(":scope .expand").addEventListener("pointerdown", expandMouseDown);
 
   function expandMouseDown(e) {
     e = e || window.event;
     lastActive = document.activeElement;
-    
+
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.documentElement.addEventListener("mouseup", closeExpandElement);
+    document.documentElement.addEventListener("pointerup", closeExpandElement);
     // call a function whenever the cursor moves:
-    document.documentElement.addEventListener("mousemove", expandElementDrag);
+    document.documentElement.addEventListener("pointermove", expandElementDrag);
     draggingEnabled = false;
     startWidth = elmnt.getBoundingClientRect().width;
     startHeight = elmnt.getBoundingClientRect().height;
@@ -143,12 +143,12 @@ function expandElement(elmnt, minWidth = null, minHeight = null) {
 
   function closeExpandElement() {
     /* stop moving when mouse button is released:*/
-    document.documentElement.removeEventListener("mouseup", closeExpandElement);
-    document.documentElement.removeEventListener("mousemove", expandElementDrag);
+    document.documentElement.removeEventListener("pointerup", closeExpandElement);
+    document.documentElement.removeEventListener("pointermove", expandElementDrag);
     draggingEnabled = true;
-    
+
     // Refocus previous element
-    if(lastActive){
+    if (lastActive) {
       lastActive.focus();
       lastActive = null;
     }
@@ -176,7 +176,7 @@ function setupDialog(dialog, expandable = true) {
     expandElement(dialog);
   }
 
-  dialog.addEventListener("mousedown", moveToFront.bind(null, dialog, "dialog"));
+  dialog.addEventListener("pointerdown", moveToFront.bind(null, dialog, "dialog"));
 
   const closeButton = dialog.querySelector(':scope button.close');
   if (closeButton) {
@@ -201,7 +201,7 @@ function showDialog(dialog) {
       dialog.style.top = (window.innerHeight / 2) + 'px';
       dialog.style.left = (window.innerWidth / 2) + 'px';
     }
-    
+
     moveToFront(dialog, "dialog");
   }
 };
@@ -216,6 +216,9 @@ function hideDialog(dialog) {
 function createDialog(title = '', expandable = true, buttons = ['Close']) {
   let element = document.createElement('dialog');
   element.className = 'pseudo-morphic';
+  element.onfocus = (ev) => {
+    console.dir(ev);
+  };
 
   let header = document.createElement('header');
   header.innerText = title;

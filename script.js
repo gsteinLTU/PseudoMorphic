@@ -25,8 +25,9 @@ function dragElement(elmnt, useHeader = false) {
 
   // Prevent dragging on things that shouldn't cause it
   Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("pointerdown", disableDrag));
-  Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("pointerup", enableDrag));
-
+  addEventListener("pointerup", enableDrag);
+  addEventListener("pointerout", enableDrag);
+  
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerdown", disableDrag));
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerup", enableDrag));
 

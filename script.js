@@ -60,8 +60,8 @@ function dragElement(elmnt, useHeader = false) {
     pos4 = e.clientY;
 
     // set new position
-    elmnt.style.top = Math.min(window.screen.height - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop - pos2)) + "px";
-    elmnt.style.left = Math.min(window.screen.width - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft - pos1)) + "px";
+    elmnt.style.top = Math.min(window.innerHeight - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop - pos2)) + "px";
+    elmnt.style.left = Math.min(window.innerWidth - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft - pos1)) + "px";
   }
 
   // Stop dragging
@@ -79,8 +79,8 @@ function dragElement(elmnt, useHeader = false) {
 
   // Keep in window
   addEventListener("resize", function(e) {
-    elmnt.style.top = Math.min(window.screen.height - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop)) + "px";
-    elmnt.style.left = Math.min(window.screen.width - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft)) + "px";
+    elmnt.style.top = Math.min(window.innerHeight - elmnt.getBoundingClientRect().height / 2, Math.max(elmnt.getBoundingClientRect().height / 2, elmnt.offsetTop)) + "px";
+    elmnt.style.left = Math.min(window.innerWidth - elmnt.getBoundingClientRect().width / 2, Math.max(elmnt.getBoundingClientRect().width / 2, elmnt.offsetLeft)) + "px";
   });
 }
 

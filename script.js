@@ -27,13 +27,14 @@ function dragElement(elmnt, useHeader = false) {
   Array.prototype.forEach.call(elmnt.querySelectorAll(":not(header, div, content, label)"), e => e.addEventListener("pointerdown", disableDrag));
   addEventListener("pointerup", enableDrag);
   addEventListener("pointerout", enableDrag);
-  
+
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerdown", disableDrag));
   Array.prototype.forEach.call(elmnt.querySelectorAll("div.expand"), e => e.addEventListener("pointerup", enableDrag));
 
   let lastActive = null;
 
   function dragMouseDown(e) {
+
     if (!draggingEnabled || e.button != 0) { return; }
     e = e || window.event;
     lastActive = document.activeElement;
@@ -179,6 +180,12 @@ function setupDialog(dialog, expandable = true) {
 
   dialog.addEventListener("pointerdown", moveToFront.bind(null, dialog, "dialog"));
 
+  dialog.addEventListener('pointerdown', function(e) {
+    if (e.target.hasPointerCapture(e.pointerId)) {
+      e.target.releasePointerCapture(e.pointerId);
+    }
+  });
+
   const closeButton = dialog.querySelector(':scope button.close');
   if (closeButton) {
     closeButton.onclick = () => {
@@ -217,9 +224,6 @@ function hideDialog(dialog) {
 function createDialog(title = '', expandable = true, buttons = ['Close']) {
   let element = document.createElement('dialog');
   element.className = 'pseudo-morphic';
-  element.onfocus = (ev) => {
-    console.dir(ev);
-  };
 
   let header = document.createElement('header');
   header.innerText = title;
@@ -276,6 +280,7 @@ function pmAlert(title, text) {
   setupDialog(dialog, false);
   showDialog(dialog);
   moveToFront(dialog, "dialog");
+  setTimeout(() => {  moveToFront(dialog, "dialog") }, 100);
 }
 
 function setDialogTitle(dialog, newTitle) {

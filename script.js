@@ -134,13 +134,20 @@ function expandElement(elmnt, minWidth = null, minHeight = null) {
     e = e || window.event;
     e.preventDefault();
     // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
+    pos1 = pos3 - Math.min(window.innerWidth, e.clientX - 30);
+    pos2 = pos4 - Math.min(window.innerHeight, e.clientY - 30);
+
     // set the element's new position:
-    elmnt.style.width = Math.max(startWidth - pos1, minWidth) + "px";
-    elmnt.style.height = Math.max(startHeight - pos2, minHeight) + "px";
-    elmnt.style.top = (startTop + elmnt.getBoundingClientRect().height / 2) + "px";
-    elmnt.style.left = (startLeft + elmnt.getBoundingClientRect().width / 2) + "px";
+    const newWidth = Math.max(startWidth - pos1, minWidth);
+    const newHeight = Math.max(startHeight - pos2, minHeight);
+    const newTop = (startTop + elmnt.getBoundingClientRect().height / 2);
+    const newLeft = (startLeft + elmnt.getBoundingClientRect().width / 2);
+
+    // set the element's new position and dimensions:
+    elmnt.style.width = newWidth + "px";
+    elmnt.style.left = newLeft + "px";
+    elmnt.style.height = newHeight + "px";
+    elmnt.style.top = newTop + "px";
   }
 
   function closeExpandElement() {

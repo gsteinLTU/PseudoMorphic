@@ -10,6 +10,7 @@ html {
 }
 
 dialog.pseudo-morphic {
+  touch-action: none;
   margin: 0;
   position: absolute;
   left: 50%;

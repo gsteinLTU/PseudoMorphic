@@ -71,10 +71,14 @@ function dragElement(elmnt, useHeader = false) {
     document.documentElement.removeEventListener("pointermove", elementDrag);
     draggingEnabled = true;
 
-    // Refocus previous element
+    
+    // Refocus previous element based on type
     if (lastActive) {
-      lastActive.focus();
-      lastActive = null;
+      const dont_refocus = ['select', 'button'];
+      if (!dont_refocus.includes(lastActive.tagName.toLowerCase())) {
+        lastActive.focus();
+        lastActive = null;
+      }
     }
   }
 
